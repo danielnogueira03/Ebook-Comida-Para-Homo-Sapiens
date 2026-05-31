@@ -335,23 +335,30 @@
     background-size: 40px 40px;
   }
 
-  .pricing-inner { position: relative; z-index: 2; max-width: 560px; margin: 0 auto; }
+  .pricing-inner { position: relative; z-index: 2; max-width: 520px; margin: 0 auto; }
 
   .pricing-title {
-    font-size: clamp(38px, 6vw, 64px);
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4.5vw, 52px);
     font-weight: 800;
-    line-height: 1.05;
+    line-height: 1.15;
     letter-spacing: -0.03em;
+    color: var(--text);
     margin-bottom: 16px;
   }
 
-  .pricing-title em { color: var(--accent); font-style: normal; }
+  .pricing-title em {
+    display: block;
+    color: var(--accent);
+    font-style: normal;
+    font-size: clamp(32px, 5.5vw, 62px);
+  }
 
   .pricing-sub {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 300;
     color: var(--muted);
-    margin-bottom: 48px;
+    margin-bottom: 40px;
     line-height: 1.65;
   }
 
@@ -684,8 +691,8 @@
 <!-- ══ PREÇO / CTA ══ -->
 <section class="pricing-section" id="comprar">
   <div class="pricing-inner">
-    <div class="section-label" style="justify-content: center; display: flex; margin-bottom: 16px;">Oferta</div>
-    <h2 class="pricing-title">Comece a comer<br>como um <em>HomoSapiens</em></h2>
+    <div class="section-label" style="justify-content: center; display: flex; margin-bottom: 20px;">✦ Oferta</div>
+    <h2 class="pricing-title">Comece a comer<br>como um<br><em>HomoSapiens</em></h2>
     <p class="pricing-sub">Acesso imediato ao ebook completo — 7 capítulos, diagramas científicos e modelo prático de dia alimentar.</p>
 
     <div class="price-card">
