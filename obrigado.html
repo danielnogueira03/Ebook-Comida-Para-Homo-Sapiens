@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obrigado! — Comida Para HomoSapiens</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0f0e;
+    --surface: #131918;
+    --surface2: #1c2321;
+    --accent: #b5f060;
+    --accent2: #60d4f0;
+    --accent3: #f0a060;
+    --text: #e8ede8;
+    --muted: #7a8f84;
+    --border: rgba(181,240,96,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1, h2, h3 { font-family: 'Syne', sans-serif; letter-spacing: -0.02em; }
+
+  /* ── BACKGROUND ── */
+  .bg-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bg-layer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(181,240,96,0.055) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .bg-layer::after {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(181,240,96,0.13) 0%, transparent 70%);
+  }
+
+  /* ── MAIN ── */
+  main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    text-align: center;
+  }
+
+  /* ── SUCCESS BADGE ── */
+  .success-ring {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    background: rgba(181,240,96,0.1);
+    border: 2px solid rgba(181,240,96,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    margin: 0 auto 40px;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* ── TAG ── */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(181,240,96,0.4);
+    padding: 7px 18px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { transform: translateY(16px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+  /* ── HEADLINE ── */
+  .headline {
+    font-size: clamp(40px, 8vw, 80px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+
+  .headline span { display: block; color: var(--accent); font-size: clamp(28px, 5vw, 52px); }
+
+  .subtitle {
+    font-size: 19px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 24px auto 48px;
+    line-height: 1.65;
+    animation: fadeUp 0.5s 0.4s ease both;
+  }
+
+  /* ── NEXT STEPS ── */
+  .steps-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    animation: fadeUp 0.5s 0.5s ease both;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto 48px;
+    animation: fadeUp 0.5s 0.55s ease both;
+  }
+
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    align-items: center;
+    text-align: left;
+  }
+
+  .step-num {
+    width: 40px; height: 40px;
+    background: rgba(181,240,96,0.1);
+    border: 1px solid rgba(181,240,96,0.25);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .step-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .step-text p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+  /* ── CTA VOLTAR ── */
+  .back-link {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+    animation: fadeUp 0.5s 0.7s ease both;
+  }
+
+  .back-link:hover { color: var(--text); }
+
+  /* ── CONFETTI-LIKE PARTICLES ── */
+  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .particle {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ── QUOTE ── */
+  .final-quote {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 400px;
+    line-height: 1.65;
+    margin-top: 16px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.5s 0.8s ease both;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    padding: 28px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .footer-brand { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: var(--text); }
+  .footer-brand em { color: var(--accent); font-style: normal; }
+
+  @media (max-width: 600px) {
+    .step { grid-template-columns: 36px 1fr; gap: 12px; }
+    footer { flex-direction: column; align-items: flex-start; padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+
+<!-- Partículas decorativas -->
+<div class="particles" id="particles"></div>
+
+<main>
+  <div class="success-ring">✓</div>
+
+  <div class="tag">
+    <div class="tag-dot"></div>
+    Compra Confirmada
+  </div>
+
+  <h1 class="headline">
+    Bem-vindo ao clube!
+    <span>Seu ebook chegou.</span>
+  </h1>
+
+  <p class="subtitle">
+    Obrigado pela sua compra. Você está a um passo de entender como seu corpo realmente funciona — e de começar a alimentá-lo da forma certa.
+  </p>
+
+  <div class="steps-title">✦ Próximos passos</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Verifique seu e-mail</h4>
+        <p>O link de download do ebook foi enviado para o e-mail informado na compra. Cheque também a pasta de spam.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Baixe o PDF</h4>
+        <p>O arquivo funciona em qualquer dispositivo — celular, tablet ou computador. Sem aplicativo especial.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Comece pelo Capítulo 01</h4>
+        <p>Entenda primeiro o que seu corpo é — o resto faz muito mais sentido depois dessa base.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Monte seu primeiro prato ideal</h4>
+        <p>Use o modelo do Capítulo 07 já na próxima refeição. A mudança começa no próximo garfo.</p>
+      </div>
+    </div>
+  </div>
+
+  <a href="/" class="back-link">← Voltar à página principal</a>
+
+  <div class="final-quote">
+    "Comida Para HomoSapiens não é dieta.<br>É o retorno à nossa natureza biológica —<br>inteligente, rítmica e viva."
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">COMIDA PARA <em>HOMO SAPIENS</em></div>
+  <div>© 2025 · Guia de Nutrição Biológica</div>
+</footer>
+
+<script>
+  // Partículas decorativas leves
+  const colors = ['#b5f060', '#60d4f0', '#f0a060', '#f060a8'];
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.top = Math.random() * -50 + 'px';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.opacity = (Math.random() * 0.4 + 0.1).toString();
+    p.style.width = p.style.height = (Math.random() * 5 + 3) + 'px';
+    p.style.animationDuration = (Math.random() * 8 + 6) + 's';
+    p.style.animationDelay = (Math.random() * 4) + 's';
+    container.appendChild(p);
+  }
+</script>
+</body>
+</html>

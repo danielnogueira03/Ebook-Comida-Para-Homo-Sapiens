@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comida Para HomoSapiens</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0f0e;
+    --surface: #131918;
+    --surface2: #1c2321;
+    --accent: #b5f060;
+    --accent2: #60d4f0;
+    --accent3: #f0a060;
+    --accent4: #f060a8;
+    --text: #e8ede8;
+    --muted: #7a8f84;
+    --border: rgba(181,240,96,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 60px 40px 40px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 60% 30%, rgba(181,240,96,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 20% 80%, rgba(96,212,240,0.08) 0%, transparent 60%),
+                var(--bg);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(181,240,96,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .cover-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 48px;
+  }
+
+  .cover-content { position: relative; z-index: 2; }
+
+  .cover-eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .cover-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(52px, 9vw, 110px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+  }
+
+  .cover-title span {
+    display: block;
+    color: var(--accent);
+    font-size: clamp(38px, 6vw, 72px);
+  }
+
+  .cover-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 56px;
+    line-height: 1.6;
+  }
+
+  .cover-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 64px;
+  }
+
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .cover-illustration {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(480px, 50vw);
+    opacity: 0.9;
+  }
+
+  .cover-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── TABLE OF CONTENTS ── */
+  .toc {
+    padding: 80px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+  }
+
+  .toc-title {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    margin-bottom: 48px;
+    line-height: 1.1;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .toc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .toc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .toc-card:hover { background: var(--surface2); transform: translateY(-2px); }
+  .toc-card:hover::before { transform: scaleX(1); }
+
+  .toc-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+
+  .toc-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .toc-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── CHAPTER ── */
+  .chapter {
+    padding: 100px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .chapter-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: start;
+    margin-bottom: 64px;
+  }
+
+  .chapter-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .chapter-title {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .chapter-lead {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 16px;
+    max-width: 560px;
+  }
+
+  .chapter-body {
+    font-size: 16.5px;
+    line-height: 1.85;
+    color: #c8d8c4;
+  }
+
+  .chapter-body p { margin-bottom: 24px; }
+
+  .chapter-illustration {
+    display: flex;
+    justify-content: center;
+    margin: 56px 0;
+  }
+
+  .chapter-illustration svg {
+    width: 100%;
+    max-width: 680px;
+    height: auto;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: linear-gradient(135deg, rgba(181,240,96,0.08) 0%, rgba(181,240,96,0.03) 100%);
+    border: 1px solid rgba(181,240,96,0.3);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 36px 0;
+    position: relative;
+  }
+
+  .callout.accent2 {
+    background: linear-gradient(135deg, rgba(96,212,240,0.08) 0%, rgba(96,212,240,0.03) 100%);
+    border-color: rgba(96,212,240,0.3);
+  }
+
+  .callout.accent3 {
+    background: linear-gradient(135deg, rgba(240,160,96,0.08) 0%, rgba(240,160,96,0.03) 100%);
+    border-color: rgba(240,160,96,0.3);
+  }
+
+  .callout-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .callout-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .callout.accent2 .callout-title { color: var(--accent2); }
+  .callout.accent3 .callout-title { color: var(--accent3); }
+
+  .callout p {
+    font-size: 15px;
+    color: #c8d8c4;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ── QUOTE ── */
+  .big-quote {
+    border-left: 3px solid var(--accent);
+    padding: 8px 32px;
+    margin: 48px 0;
+    font-size: clamp(18px, 2.5vw, 22px);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── STEP CARDS ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 40px 0;
+  }
+
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .step-num {
+    width: 56px;
+    height: 56px;
+    background: var(--accent);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+
+  .step-content h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .step-content p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── DATA TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 40px 0;
+    font-size: 14.5px;
+  }
+
+  .data-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: left;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #c8d8c4;
+    vertical-align: top;
+    line-height: 1.55;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(181,240,96,0.03); }
+  .data-table td:first-child { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--text); white-space: nowrap; }
+
+  /* ── COMPARISON ── */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 40px 0;
+  }
+
+  .comp-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--border);
+  }
+
+  .comp-card.bad { border-color: rgba(240,96,96,0.3); }
+  .comp-card.good { border-color: rgba(181,240,96,0.3); }
+
+  .comp-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .comp-card.bad .comp-label { color: #f06060; }
+  .comp-card.good .comp-label { color: var(--accent); }
+
+  .comp-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .comp-card ul li {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .comp-card.bad ul li::before { content: '✗'; position: absolute; left: 0; color: #f06060; }
+  .comp-card.good ul li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); }
+
+  /* ── DOSHA ── */
+  .dosha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 40px 0;
+  }
+
+  .dosha-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dosha-card.vata { border-color: rgba(181,240,96,0.3); }
+  .dosha-card.pitta { border-color: rgba(240,160,96,0.4); }
+  .dosha-card.kapha { border-color: rgba(96,212,240,0.3); }
+
+  .dosha-icon { font-size: 40px; margin-bottom: 12px; }
+
+  .dosha-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .dosha-card.vata .dosha-name { color: var(--accent); }
+  .dosha-card.pitta .dosha-name { color: var(--accent3); }
+  .dosha-card.kapha .dosha-name { color: var(--accent2); }
+
+  .dosha-element {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .dosha-time {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 100px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+
+  .dosha-card.vata .dosha-time { background: rgba(181,240,96,0.12); color: var(--accent); }
+  .dosha-card.pitta .dosha-time { background: rgba(240,160,96,0.12); color: var(--accent3); }
+  .dosha-card.kapha .dosha-time { background: rgba(96,212,240,0.12); color: var(--accent2); }
+
+  .dosha-desc { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+
+  /* ── MEAL TIMELINE ── */
+  .timeline {
+    position: relative;
+    margin: 48px 0;
+    padding-left: 40px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 32px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .timeline-item.dim::before {
+    background: var(--muted);
+    opacity: 0.5;
+  }
+
+  .timeline-time {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .timeline-item.dim .timeline-time { color: var(--muted); }
+
+  .timeline-meal {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .timeline-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── PLATE VISUAL ── */
+  .plate-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 40px 0;
+  }
+
+  .plate-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .plate-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    flex-shrink: 0;
+    min-width: 64px;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .plate-item:nth-child(1) { border-color: rgba(181,240,96,0.25); }
+  .plate-item:nth-child(1) .plate-pct { color: var(--accent); }
+  .plate-item:nth-child(2) { border-color: rgba(96,212,240,0.25); }
+  .plate-item:nth-child(2) .plate-pct { color: var(--accent2); }
+  .plate-item:nth-child(3) { border-color: rgba(240,160,96,0.25); }
+  .plate-item:nth-child(3) .plate-pct { color: var(--accent3); }
+  .plate-item:nth-child(4) { border-color: rgba(240,96,168,0.25); }
+  .plate-item:nth-child(4) .plate-pct { color: var(--accent4); }
+
+  .plate-info h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .plate-info p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* ── SEPARATOR ── */
+  .chapter-sep {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0 40px;
+  }
+
+  /* ── CONCLUSION ── */
+  .conclusion {
+    background: linear-gradient(135deg, rgba(181,240,96,0.06) 0%, transparent 60%);
+    border-top: 1px solid var(--border);
+    padding: 100px 40px;
+    text-align: center;
+  }
+
+  .conclusion-title {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .conclusion-title em { color: var(--accent); font-style: normal; }
+
+  .conclusion-text {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+
+  .key-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 720px;
+    margin: 0 auto 56px;
+  }
+
+  .key-point {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .key-point::before {
+    content: '✓';
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+  }
+
+  .final-quote {
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ── AMINO CARDS ── */
+  .amino-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 0 0 16px;
+  }
+
+  .amino-card {
+    background: rgba(181,240,96,0.07);
+    border: 1px solid rgba(181,240,96,0.3);
+    border-radius: 14px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .amino-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .amino-abbr {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+
+  .amino-fn {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  /* ── FONTE CARDS ── */
+  .source-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .source-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .source-card-icon { font-size: 36px; line-height: 1; }
+
+  .source-card-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .source-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .source-card p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Source card color variants */
+  .source-card.animal { border-color: rgba(240,160,96,0.3); }
+  .source-card.animal .source-card-label { color: var(--accent3); }
+  .source-card.vegetal { border-color: rgba(96,212,240,0.3); }
+  .source-card.vegetal .source-card-label { color: var(--accent2); }
+  .source-card.combo { border-color: rgba(240,96,168,0.3); }
+  .source-card.combo .source-card-label { color: var(--accent4); }
+
+  /* ── MINERAL CARDS ── */
+  .mineral-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin: 40px 0;
+  }
+
+  .mineral-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .mineral-badge {
+    border-radius: 12px;
+    min-width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  .mineral-card.zn { border-color: rgba(181,240,96,0.25); }
+  .mineral-card.zn .mineral-badge { background: rgba(181,240,96,0.1); border: 1px solid rgba(181,240,96,0.3); color: var(--accent); }
+
+  .mineral-card.mg { border-color: rgba(96,212,240,0.25); }
+  .mineral-card.mg .mineral-badge { background: rgba(96,212,240,0.1); border: 1px solid rgba(96,212,240,0.3); color: var(--accent2); }
+
+  .mineral-card.fe { border-color: rgba(240,96,96,0.25); }
+  .mineral-card.fe .mineral-badge { background: rgba(240,96,96,0.1); border: 1px solid rgba(240,96,96,0.3); color: #f06060; }
+
+  .mineral-card.ca { border-color: rgba(240,160,96,0.25); }
+  .mineral-card.ca .mineral-badge { background: rgba(240,160,96,0.1); border: 1px solid rgba(240,160,96,0.3); color: var(--accent3); }
+
+  .mineral-card.se { border-color: rgba(240,96,168,0.25); }
+  .mineral-card.se .mineral-badge { background: rgba(240,96,168,0.1); border: 1px solid rgba(240,96,168,0.3); color: var(--accent4); }
+
+  .mineral-card.io { border-color: rgba(181,240,96,0.25); }
+  .mineral-card.io .mineral-badge { background: rgba(181,240,96,0.1); border: 1px solid rgba(181,240,96,0.3); color: var(--accent); }
+
+  .mineral-card.k { border-color: rgba(96,212,240,0.25); }
+  .mineral-card.k .mineral-badge { background: rgba(96,212,240,0.1); border: 1px solid rgba(96,212,240,0.3); color: var(--accent2); }
+
+  .mineral-card.na { border-color: rgba(181,240,96,0.25); }
+  .mineral-card.na .mineral-badge { background: rgba(181,240,96,0.1); border: 1px solid rgba(181,240,96,0.3); color: var(--accent); }
+
+  .mineral-info-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+
+  .mineral-info p {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ── FAT CARDS ── */
+  .fat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 32px 0;
+  }
+
+  .fat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  .fat-icon { font-size: 22px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+
+  .fat-card-text { min-width: 0; overflow: hidden; }
+
+  .fat-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .fat-card p {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin: 0;
+    word-break: break-word;
+  }
+
+  @media (max-width: 700px) {
+    .cover { padding: 40px 24px 32px; }
+    .cover-illustration { display: none; }
+    .chapter { padding: 64px 24px; }
+    .toc { padding: 64px 24px; }
+    .chapter-header { grid-template-columns: 1fr; }
+    .dosha-grid { grid-template-columns: 1fr; }
+    .comparison { grid-template-columns: 1fr; }
+    .plate-grid { grid-template-columns: 1fr; }
+    .source-grid { grid-template-columns: 1fr; }
+    .mineral-grid { grid-template-columns: 1fr; }
+    .fat-grid { grid-template-columns: repeat(2, 1fr); }
+    .conclusion { padding: 64px 24px; }
+    .chapter-sep { margin: 0 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════ COVER -->
+<section class="cover">
+  <div class="cover-content">
+    <div class="cover-tag">Guia de Nutrição Biológica · 2025</div>
+    <div class="cover-eyebrow">O Guia Completo da Alimentação Biológica</div>
+    <h1 class="cover-title">
+      COMIDA<br>
+      <span>PARA HOMO<br>SAPIENS</span>
+    </h1>
+    <p class="cover-subtitle">Ciência nutricional moderna + sabedoria Ayurvédica milenar. Tudo que você precisa saber sobre o que, quanto e quando comer.</p>
+    <div class="cover-pills">
+      <div class="pill">Síntese Proteica</div>
+      <div class="pill">Aminoácidos</div>
+      <div class="pill">Cronobiologia</div>
+      <div class="pill">Ayurveda</div>
+      <div class="pill">Prato Ideal</div>
+    </div>
+  </div>
+
+  <svg class="cover-illustration" viewBox="0 0 460 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bodyGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#b5f060" stop-opacity="0.15"/>
+        <stop offset="100%" stop-color="#b5f060" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="230" cy="270" rx="200" ry="230" fill="url(#bodyGlow)"/>
+    <ellipse cx="230" cy="90" rx="54" ry="54" fill="none" stroke="#b5f060" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
+    <path d="M176 144 C176 144 148 200 140 280 C136 316 134 360 140 400 L176 400 L190 320 L230 340 L270 320 L284 400 L320 400 C326 360 324 316 320 280 C312 200 284 144 284 144 Z" fill="none" stroke="#b5f060" stroke-width="1.5" opacity="0.6"/>
+    <path d="M176 160 L120 260 L108 290" stroke="#b5f060" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+    <path d="M284 160 L340 260 L352 290" stroke="#b5f060" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+    <circle cx="100" cy="120" r="6" fill="#b5f060" opacity="0.8"/>
+    <circle cx="116" cy="100" r="4" fill="#60d4f0" opacity="0.7"/>
+    <circle cx="130" cy="118" r="5" fill="#b5f060" opacity="0.6"/>
+    <line x1="106" y1="120" x2="112" y2="104" stroke="#b5f060" stroke-width="1.2" opacity="0.5"/>
+    <line x1="120" y1="100" x2="126" y2="114" stroke="#60d4f0" stroke-width="1.2" opacity="0.5"/>
+    <circle cx="360" cy="180" r="6" fill="#f0a060" opacity="0.8"/>
+    <circle cx="376" cy="160" r="4" fill="#b5f060" opacity="0.7"/>
+    <circle cx="350" cy="164" r="5" fill="#f0a060" opacity="0.6"/>
+    <line x1="364" y1="178" x2="372" y2="164" stroke="#f0a060" stroke-width="1.2" opacity="0.5"/>
+    <line x1="368" y1="162" x2="358" y2="168" stroke="#b5f060" stroke-width="1.2" opacity="0.5"/>
+    <path d="M220 180 Q240 196 220 212 Q200 228 220 244 Q240 260 220 276 Q200 292 220 308" stroke="#b5f060" stroke-width="1.5" fill="none" opacity="0.5"/>
+    <path d="M240 180 Q220 196 240 212 Q260 228 240 244 Q220 260 240 276 Q260 292 240 308" stroke="#60d4f0" stroke-width="1.5" fill="none" opacity="0.5"/>
+    <line x1="220" y1="194" x2="240" y2="194" stroke="rgba(181,240,96,0.4)" stroke-width="1"/>
+    <line x1="220" y1="212" x2="240" y2="212" stroke="rgba(181,240,96,0.4)" stroke-width="1"/>
+    <line x1="220" y1="228" x2="240" y2="228" stroke="rgba(181,240,96,0.4)" stroke-width="1"/>
+    <line x1="220" y1="244" x2="240" y2="244" stroke="rgba(181,240,96,0.4)" stroke-width="1"/>
+    <line x1="220" y1="260" x2="240" y2="260" stroke="rgba(181,240,96,0.4)" stroke-width="1"/>
+    <line x1="220" y1="276" x2="240" y2="276" stroke="rgba(181,240,96,0.4)" stroke-width="1"/>
+    <path d="M76 330 C76 310 96 300 106 312 C116 324 106 344 86 344 C82 338 76 330 76 330Z" fill="none" stroke="#b5f060" stroke-width="1.5" opacity="0.7"/>
+    <path d="M370 320 C380 314 398 320 398 320 C398 320 380 326 370 320Z" fill="none" stroke="#60d4f0" stroke-width="1.5" opacity="0.7"/>
+    <ellipse cx="385" cy="320" rx="14" ry="8" fill="none" stroke="#60d4f0" stroke-width="1.5" opacity="0.6"/>
+    <ellipse cx="390" cy="420" rx="10" ry="16" fill="none" stroke="#f0a060" stroke-width="1.5" opacity="0.6" transform="rotate(-20 390 420)"/>
+    <text x="40" y="338" font-family="Syne, sans-serif" font-size="10" fill="#b5f060" opacity="0.7">Fibras</text>
+    <text x="355" y="310" font-family="Syne, sans-serif" font-size="10" fill="#60d4f0" opacity="0.7">Ômega-3</text>
+    <text x="380" y="445" font-family="Syne, sans-serif" font-size="10" fill="#f0a060" opacity="0.7">Carboidratos</text>
+    <text x="75" y="200" font-family="Syne, sans-serif" font-size="10" fill="#b5f060" opacity="0.7">Aminoácidos</text>
+    <text x="330" y="170" font-family="Syne, sans-serif" font-size="10" fill="#f0a060" opacity="0.7">Vitaminas</text>
+    <circle cx="150" cy="430" r="3" fill="#f060a8" opacity="0.6"/>
+    <circle cx="160" cy="445" r="2" fill="#f060a8" opacity="0.4"/>
+    <circle cx="310" cy="90" r="3" fill="#b5f060" opacity="0.5"/>
+    <circle cx="330" cy="80" r="2" fill="#60d4f0" opacity="0.5"/>
+  </svg>
+
+  <div class="cover-footer">
+    <span>Ciência · Ayurveda · Prática</span>
+    <span>comidaparahomosapiens.com</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ TOC -->
+<section class="toc">
+  <div class="section-label">Sumário</div>
+  <h2 class="toc-title">O que você vai<br>aprender aqui</h2>
+  <div class="toc-grid">
+    <a class="toc-card" href="#cap1">
+      <div class="toc-num">Cap. 01</div>
+      <div class="toc-name">O Que Seu Corpo Realmente É</div>
+      <div class="toc-desc">Células, bioquímica e a máquina viva de 37 trilhões de peças</div>
+    </a>
+    <a class="toc-card" href="#cap2">
+      <div class="toc-num">Cap. 02</div>
+      <div class="toc-name">A Síntese Proteica</div>
+      <div class="toc-desc">O processo mais importante da sua biologia — explicado de forma simples</div>
+    </a>
+    <a class="toc-card" href="#cap3">
+      <div class="toc-num">Cap. 03</div>
+      <div class="toc-name">Os 20 Aminoácidos</div>
+      <div class="toc-desc">Os tijolos da vida: essenciais e não-essenciais detalhados</div>
+    </a>
+    <a class="toc-card" href="#cap4">
+      <div class="toc-num">Cap. 04</div>
+      <div class="toc-name">Carboidratos Complexos</div>
+      <div class="toc-desc">O combustível inteligente — por que cortar carbo é um erro</div>
+    </a>
+    <a class="toc-card" href="#cap5">
+      <div class="toc-num">Cap. 05</div>
+      <div class="toc-name">Gorduras & Micronutrientes</div>
+      <div class="toc-desc">Os silenciosos que sustentam tudo no seu organismo</div>
+    </a>
+    <a class="toc-card" href="#cap6">
+      <div class="toc-num">Cap. 06</div>
+      <div class="toc-name">Ayurveda & Cronobiologia</div>
+      <div class="toc-desc">Comer no horário certo muda tudo — a ciência explica por quê</div>
+    </a>
+    <a class="toc-card" href="#cap7">
+      <div class="toc-num">Cap. 07</div>
+      <div class="toc-name">Montando o Prato Ideal</div>
+      <div class="toc-desc">Guia prático completo com modelo de dia alimentar</div>
+    </a>
+  </div>
+</section>
+
+<div class="chapter-sep"></div>
+
+<!-- ══════════════════════════════════════════ CAP 1 -->
+<section class="chapter" id="cap1">
+  <div class="chapter-header">
+    <div>
+      <div class="chapter-num">Capítulo 01</div>
+      <h2 class="chapter-title">O Que Seu Corpo<br>Realmente É</h2>
+      <p class="chapter-lead">Você é uma máquina de 37 trilhões de células — e cada garfada é uma instrução para todas elas.</p>
+    </div>
+  </div>
+
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 680 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr-cap1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#b5f060"/>
+        </marker>
+      </defs>
+      <rect width="680" height="300" rx="20" fill="#131918"/>
+      <ellipse cx="120" cy="150" rx="88" ry="88" fill="rgba(181,240,96,0.04)" stroke="#b5f060" stroke-width="1.2" stroke-dasharray="5 3"/>
+      <ellipse cx="120" cy="150" rx="30" ry="30" fill="rgba(181,240,96,0.08)" stroke="#b5f060" stroke-width="1.5"/>
+      <text x="120" y="154" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" font-weight="700">DNA</text>
+      <circle cx="120" cy="62" r="4" fill="#b5f060" opacity="0.7"/>
+      <circle cx="185" cy="105" r="4" fill="#b5f060" opacity="0.7"/>
+      <circle cx="185" cy="195" r="4" fill="#b5f060" opacity="0.7"/>
+      <circle cx="120" cy="238" r="4" fill="#b5f060" opacity="0.7"/>
+      <circle cx="55" cy="195" r="4" fill="#b5f060" opacity="0.7"/>
+      <circle cx="55" cy="105" r="4" fill="#b5f060" opacity="0.7"/>
+      <ellipse cx="158" cy="138" rx="10" ry="7" fill="#f0a060" opacity="0.8"/>
+      <text x="158" y="165" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#f0a060" opacity="0.9">Ribossomo</text>
+      <path d="M210 150 L260 150" stroke="#b5f060" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr-cap1)"/>
+      <rect x="270" y="30" width="120" height="50" rx="12" fill="rgba(181,240,96,0.08)" stroke="#b5f060" stroke-width="1"/>
+      <text x="330" y="52" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#b5f060" font-weight="700">Proteínas</text>
+      <text x="330" y="68" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">Estrutura + Função</text>
+      <rect x="270" y="125" width="120" height="50" rx="12" fill="rgba(96,212,240,0.08)" stroke="#60d4f0" stroke-width="1"/>
+      <text x="330" y="147" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#60d4f0" font-weight="700">Carboidratos</text>
+      <text x="330" y="163" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">Combustível</text>
+      <rect x="270" y="220" width="120" height="50" rx="12" fill="rgba(240,160,96,0.08)" stroke="#f0a060" stroke-width="1"/>
+      <text x="330" y="242" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#f0a060" font-weight="700">Gorduras</text>
+      <text x="330" y="258" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">Hormônios + Membranas</text>
+      <path d="M390 55 L430 55 L430 150 L530 150" stroke="rgba(181,240,96,0.3)" stroke-width="1" stroke-dasharray="3 2"/>
+      <path d="M390 150 L530 150" stroke="rgba(96,212,240,0.3)" stroke-width="1" stroke-dasharray="3 2"/>
+      <path d="M390 245 L430 245 L430 150 L530 150" stroke="rgba(240,160,96,0.3)" stroke-width="1" stroke-dasharray="3 2"/>
+      <ellipse cx="590" cy="150" rx="72" ry="72" fill="rgba(181,240,96,0.06)" stroke="#b5f060" stroke-width="1.5"/>
+      <text x="590" y="142" text-anchor="middle" font-family="Syne,sans-serif" font-size="11" fill="#b5f060" font-weight="800">CÉLULA</text>
+      <text x="590" y="158" text-anchor="middle" font-family="Syne,sans-serif" font-size="11" fill="#b5f060" font-weight="800">SAUDÁVEL</text>
+      <text x="590" y="174" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">37 trilhões delas</text>
+      <text x="120" y="285" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">Célula humana</text>
+    </svg>
+  </div>
+
+  <div class="chapter-body">
+    <p>Pense no seu corpo como a fábrica mais sofisticada do universo. São aproximadamente <strong style="color:var(--accent)">37 trilhões de células</strong>, cada uma operando como uma mini-usina autônoma — realizando milhares de reações químicas por segundo, simultaneamente.</p>
+    <p>Cada decisão que você toma sobre o que comer é, literalmente, uma instrução enviada a essas trilhões de trabalhadoras. A qualidade da matéria-prima que você fornece determina a qualidade do produto final: você.</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">⚡</span>
+    <div class="callout-title">Regra de Ouro</div>
+    <p>Você não é apenas o que você come — você é o que seu corpo consegue <strong>absorver, metabolizar e utilizar</strong>. A digestão e o aproveitamento são tão importantes quanto a escolha dos alimentos.</p>
+  </div>
+
+  <div class="chapter-body">
+    <p>Para sobreviver e prosperar, nosso organismo precisa de seis pilares nutricionais essenciais. A ausência de qualquer um deles gera disfunção celular silenciosa — muitas vezes confundida com cansaço "normal" ou mal-estar sem causa aparente.</p>
+  </div>
+
+  <!-- FIX 2: Removed the last dashed card ("Se um faltar..."), shrunk viewBox to 600 -->
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 600 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="600" height="200" rx="20" fill="#131918"/>
+      <rect x="20" y="40" width="82" height="120" rx="12" fill="rgba(181,240,96,0.07)" stroke="#b5f060" stroke-width="1"/>
+      <text x="61" y="95" text-anchor="middle" font-family="Syne,sans-serif" font-size="22" fill="#b5f060">🥩</text>
+      <text x="61" y="118" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" font-weight="700">MACRO</text>
+      <text x="61" y="132" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">Proteínas</text>
+      <text x="61" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">Carbos · Gorduras</text>
+      <rect x="116" y="40" width="82" height="120" rx="12" fill="rgba(96,212,240,0.07)" stroke="#60d4f0" stroke-width="1"/>
+      <text x="157" y="95" text-anchor="middle" font-family="Syne,sans-serif" font-size="22" fill="#60d4f0">🫐</text>
+      <text x="157" y="118" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#60d4f0" font-weight="700">MICRO</text>
+      <text x="157" y="132" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">Vitaminas</text>
+      <text x="157" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">Minerais</text>
+      <rect x="212" y="40" width="82" height="120" rx="12" fill="rgba(240,160,96,0.07)" stroke="#f0a060" stroke-width="1"/>
+      <text x="253" y="95" text-anchor="middle" font-family="Syne,sans-serif" font-size="22" fill="#f0a060">🧬</text>
+      <text x="253" y="118" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#f0a060" font-weight="700">AMINOÁCIDOS</text>
+      <text x="253" y="132" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">20 tipos</text>
+      <text x="253" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">que constroem tudo</text>
+      <rect x="308" y="40" width="82" height="120" rx="12" fill="rgba(181,240,96,0.07)" stroke="#b5f060" stroke-width="1"/>
+      <text x="349" y="95" text-anchor="middle" font-family="Syne,sans-serif" font-size="22" fill="#b5f060">💧</text>
+      <text x="349" y="118" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" font-weight="700">ÁGUA</text>
+      <text x="349" y="132" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">60–70% do</text>
+      <text x="349" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">seu peso</text>
+      <rect x="404" y="40" width="82" height="120" rx="12" fill="rgba(96,212,240,0.07)" stroke="#60d4f0" stroke-width="1"/>
+      <text x="445" y="95" text-anchor="middle" font-family="Syne,sans-serif" font-size="22" fill="#60d4f0">🌾</text>
+      <text x="445" y="118" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#60d4f0" font-weight="700">FIBRAS</text>
+      <text x="445" y="132" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">Microbioma</text>
+      <text x="445" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">e absorção</text>
+      <rect x="500" y="40" width="82" height="120" rx="12" fill="rgba(240,96,168,0.07)" stroke="#f060a8" stroke-width="1"/>
+      <text x="541" y="95" text-anchor="middle" font-family="Syne,sans-serif" font-size="22" fill="#f060a8">🧠</text>
+      <text x="541" y="118" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#f060a8" font-weight="700">NEUROPEPTÍDEOS</text>
+      <text x="541" y="132" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">Intestino</text>
+      <text x="541" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#7a8f84">↔ Cérebro</text>
+    </svg>
+  </div>
+</section>
+
+<div class="chapter-sep"></div>
+
+<!-- ══════════════════════════════════════════ CAP 2 -->
+<section class="chapter" id="cap2">
+  <div class="chapter-header">
+    <div>
+      <div class="chapter-num">Capítulo 02</div>
+      <h2 class="chapter-title">A Síntese<br>Proteica</h2>
+      <p class="chapter-lead">A fábrica que nunca para — como seu corpo fabrica tudo o que você é, 24h por dia.</p>
+    </div>
+  </div>
+
+  <div class="chapter-body">
+    <p>Imagine uma fábrica que funciona 24 horas por dia, 7 dias por semana, sem pausas. Essa fábrica recebe matéria-prima, lê instruções e produz produtos vitais. Isso é a <strong style="color:var(--accent)">síntese proteica</strong> — e ela está acontecendo agora mesmo em cada célula do seu corpo.</p>
+    <p>O fascinante é que a proteína que você come <em>não vai diretamente para o músculo</em>. Ela é completamente desmontada em peças menores (aminoácidos) e remontada do zero, seguindo as instruções do seu DNA.</p>
+  </div>
+
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 680 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr-cap2a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#b5f060"/>
+        </marker>
+        <marker id="arr-cap2b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#f0a060"/>
+        </marker>
+        <marker id="arr-cap2c" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#7a8f84"/>
+        </marker>
+      </defs>
+      <rect width="680" height="220" rx="20" fill="#131918"/>
+      <rect x="20" y="30" width="190" height="160" rx="16" fill="rgba(181,240,96,0.05)" stroke="#b5f060" stroke-width="1"/>
+      <text x="115" y="58" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#b5f060" font-weight="800">PASSO 1</text>
+      <text x="115" y="74" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="#b5f060" font-weight="700">TRANSCRIÇÃO</text>
+      <path d="M60 100 Q75 114 60 128 Q45 142 60 156" stroke="#b5f060" stroke-width="2" fill="none"/>
+      <path d="M80 100 Q65 114 80 128 Q95 142 80 156" stroke="#60d4f0" stroke-width="2" fill="none"/>
+      <line x1="60" y1="108" x2="80" y2="108" stroke="rgba(181,240,96,0.4)" stroke-width="1.2"/>
+      <line x1="60" y1="122" x2="80" y2="122" stroke="rgba(181,240,96,0.4)" stroke-width="1.2"/>
+      <line x1="60" y1="136" x2="80" y2="136" stroke="rgba(181,240,96,0.4)" stroke-width="1.2"/>
+      <line x1="60" y1="150" x2="80" y2="150" stroke="rgba(181,240,96,0.4)" stroke-width="1.2"/>
+      <text x="60" y="90" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#b5f060">DNA</text>
+      <path d="M95 128 L130 128" stroke="#b5f060" stroke-width="1.5" marker-end="url(#arr-cap2a)"/>
+      <path d="M134 118 C140 112 148 124 154 118 C160 112 168 124 174 118 C180 112 188 124 194 118" stroke="#f0a060" stroke-width="2" fill="none"/>
+      <text x="164" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#f0a060">mRNA</text>
+      <text x="115" y="175" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">DNA cria a receita</text>
+      <text x="115" y="187" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">em forma de mRNA</text>
+      <path d="M215 110 L255 110" stroke="#7a8f84" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arr-cap2c)"/>
+      <rect x="260" y="30" width="200" height="160" rx="16" fill="rgba(240,160,96,0.05)" stroke="#f0a060" stroke-width="1"/>
+      <text x="360" y="58" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#f0a060" font-weight="800">PASSO 2</text>
+      <text x="360" y="74" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="#f0a060" font-weight="700">TRADUÇÃO</text>
+      <ellipse cx="330" cy="130" rx="28" ry="20" fill="rgba(240,160,96,0.12)" stroke="#f0a060" stroke-width="1.5"/>
+      <ellipse cx="330" cy="115" rx="18" ry="12" fill="rgba(240,160,96,0.08)" stroke="#f0a060" stroke-width="1"/>
+      <text x="330" y="133" text-anchor="middle" font-family="Syne,sans-serif" font-size="8" fill="#f0a060" font-weight="700">Ribossomo</text>
+      <path d="M370 100 L358 118" stroke="#60d4f0" stroke-width="1.5" marker-end="url(#arr-cap2a)"/>
+      <text x="390" y="98" font-family="DM Sans,sans-serif" font-size="9" fill="#60d4f0">tRNA + aminoácido</text>
+      <circle cx="380" cy="142" r="5" fill="#b5f060" opacity="0.8"/>
+      <circle cx="394" cy="138" r="5" fill="#b5f060" opacity="0.7"/>
+      <circle cx="408" cy="142" r="5" fill="#b5f060" opacity="0.6"/>
+      <circle cx="422" cy="138" r="5" fill="#b5f060" opacity="0.5"/>
+      <line x1="385" y1="142" x2="390" y2="138" stroke="#b5f060" stroke-width="1.2"/>
+      <line x1="399" y1="138" x2="404" y2="142" stroke="#b5f060" stroke-width="1.2"/>
+      <line x1="413" y1="142" x2="418" y2="138" stroke="#b5f060" stroke-width="1.2"/>
+      <text x="360" y="175" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Ribossomo lê o mRNA</text>
+      <text x="360" y="187" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">e encadeia aminoácidos</text>
+      <path d="M465 110 L505 110" stroke="#7a8f84" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arr-cap2a)"/>
+      <rect x="510" y="30" width="150" height="160" rx="16" fill="rgba(181,240,96,0.05)" stroke="#b5f060" stroke-width="1"/>
+      <text x="585" y="58" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#b5f060" font-weight="800">RESULTADO</text>
+      <text x="585" y="74" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="#b5f060" font-weight="700">PROTEÍNA</text>
+      <path d="M540 110 C550 95 565 120 575 105 C585 90 600 115 610 100 C620 85 630 110 640 100" stroke="#b5f060" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <text x="585" y="150" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Músculo · Enzima</text>
+      <text x="585" y="163" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Hormônio · Anticorpo</text>
+      <text x="585" y="176" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Colágeno · Hemoglobina</text>
+    </svg>
+  </div>
+
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Transcrição — A Receita</h4>
+        <p>O DNA (no núcleo da célula) é lido e copiado em uma molécula de mRNA. Pense no mRNA como uma receita que sai da "biblioteca" central para a linha de produção.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Tradução — A Montagem</h4>
+        <p>O mRNA chega ao ribossomo — a fábrica de proteínas. Ali, o tRNA traz aminoácidos um a um, na ordem exata codificada pela receita, encadeando-os para formar a proteína.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>A Proteína Pronta — A Entrega</h4>
+        <p>A proteína formada vai para onde é necessária: reforçar músculo, criar um anticorpo, produzir um hormônio ou transportar oxigênio. Cada proteína tem uma função específica e insubstituível.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout accent3">
+    <span class="callout-icon">🚧</span>
+    <div class="callout-title">O que trava a síntese proteica?</div>
+    <p>Falta de <strong>aminoácidos essenciais</strong> · Baixa <strong>insulina</strong> (poucos carboidratos) · Deficiência de <strong>zinco, magnésio ou vitaminas B</strong> · <strong>Cortisol elevado</strong> (estresse crônico) · <strong>Sono insuficiente</strong> — o GH é liberado à noite e é essencial para a recuperação.</p>
+  </div>
+
+  <div class="big-quote">"A proteína que você come não vai diretamente para o músculo. Ela é desmontada em aminoácidos e remontada pelo DNA — seu genoma decide o que construir."</div>
+</section>
+
+<div class="chapter-sep"></div>
+
+<!-- ══════════════════════════════════════════ CAP 3 -->
+<section class="chapter" id="cap3">
+  <div class="chapter-header">
+    <div>
+      <div class="chapter-num">Capítulo 03</div>
+      <h2 class="chapter-title">Os 20<br>Aminoácidos</h2>
+      <p class="chapter-lead">Se as proteínas são as construções, os aminoácidos são os tijolos. E alguns deles você <em>precisa comer</em> — seu corpo não fabrica.</p>
+    </div>
+  </div>
+
+  <div style="margin: 40px 0;">
+    <div class="section-label">✦ 9 Essenciais — obrigatório vir da alimentação</div>
+    <div class="amino-grid">
+      <div class="amino-card">
+        <div class="amino-name">Histidina</div>
+        <div class="amino-abbr">His</div>
+        <div class="amino-fn">Fortalece o sistema imune e ajuda no crescimento e reparo de tecidos</div>
+      </div>
+      <div class="amino-card">
+        <div class="amino-name">Isoleucina</div>
+        <div class="amino-abbr">Ile</div>
+        <div class="amino-fn">Combustível direto para os músculos e ajuda na cicatrização</div>
+      </div>
+      <div class="amino-card">
+        <div class="amino-name">Leucina ⭐</div>
+        <div class="amino-abbr">Leu</div>
+        <div class="amino-fn">O mais importante para ganho muscular — ativa diretamente a síntese proteica via mTOR</div>
+      </div>
+      <div class="amino-card">
+        <div class="amino-name">Lisina</div>
+        <div class="amino-abbr">Lys</div>
+        <div class="amino-fn">Essencial para produzir colágeno, anticorpos e absorver cálcio</div>
+      </div>
+      <div class="amino-card">
+        <div class="amino-name">Metionina</div>
+        <div class="amino-abbr">Met</div>
+        <div class="amino-fn">Ação antioxidante e fundamental para a saúde do fígado e metabolismo</div>
+      </div>
+      <div class="amino-card">
+        <div class="amino-name">Fenilalanina</div>
+        <div class="amino-abbr">Phe</div>
+        <div class="amino-fn">Produz dopamina e noradrenalina — humor, foco e motivação</div>
+      </div>
+      <div class="amino-card">
+        <div class="amino-name">Treonina</div>
+        <div class="amino-abbr">Thr</div>
+        <div class="amino-fn">Apoia a imunidade, o colágeno e o funcionamento do sistema digestivo</div>
+      </div>
+      <div class="amino-card">
+        <div class="amino-name">Triptofano ⭐</div>
+        <div class="amino-abbr">Trp</div>
+        <div class="amino-fn">Produz serotonina (bem-estar) e melatonina (sono) — impacto direto no humor</div>
+      </div>
+      <div class="amino-card">
+        <div class="amino-name">Valina</div>
+        <div class="amino-abbr">Val</div>
+        <div class="amino-fn">Recuperação muscular, coordenação motora e equilíbrio mental</div>
+      </div>
+    </div>
+
+    <div style="background: rgba(96,212,240,0.07); border: 1px solid rgba(96,212,240,0.25); border-radius: 14px; padding: 16px 20px; display: flex; align-items: center; gap: 14px;">
+      <span style="font-size: 22px; flex-shrink:0;">✦</span>
+      <div>
+        <div style="font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:var(--accent2); margin-bottom:4px; letter-spacing:0.08em; text-transform:uppercase;">+ 11 Não-essenciais — seu corpo fabrica sozinho</div>
+        <div style="font-size:13px; color:var(--muted); line-height:1.55;">Alanina · Arginina · Asparagina · Ác. Aspártico · Cisteína · Ác. Glutâmico · Glutamina · Glicina · Prolina · Serina · Tirosina</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">🔑</span>
+    <div class="callout-title">A Regra de Ouro dos Aminoácidos</div>
+    <p>Se um único aminoácido essencial estiver ausente na refeição, toda a síntese da proteína que depende dele é <strong>interrompida</strong>. O corpo não improvisa, não substitui. Isso se chama <strong>aminoácido limitante</strong> — e ele trava tudo.</p>
+  </div>
+
+  <div class="chapter-body">
+    <p>A boa notícia: você não precisa comer bife em toda refeição para ter todos os aminoácidos. A natureza criou combinações vegetais inteligentes:</p>
+  </div>
+
+  <!-- FIX 1: All three source cards now use the same visual treatment — only label/border differ by color -->
+  <div class="source-grid">
+    <div class="source-card animal">
+      <div class="source-card-icon">🥚</div>
+      <div>
+        <div class="source-card-label">Fontes Animais</div>
+        <div class="source-card-title">Completas numa só fonte</div>
+        <p>Ovos, carnes, peixes, leite e queijo já contêm todos os 9 aminoácidos essenciais. A opção mais simples e completa disponível na alimentação.</p>
+      </div>
+    </div>
+    <div class="source-card vegetal">
+      <div class="source-card-icon">🌿</div>
+      <div>
+        <div class="source-card-label">Fontes Vegetais Completas</div>
+        <div class="source-card-title">As raras exceções do reino vegetal</div>
+        <p>Quinoa, amaranto e soja são plantas que, sozinhas, fornecem todos os essenciais. Ótimas para dietas vegetarianas e veganas.</p>
+      </div>
+    </div>
+    <div class="source-card combo">
+      <div class="source-card-icon">🍚🫘</div>
+      <div>
+        <div class="source-card-label">A Combinação Clássica</div>
+        <div class="source-card-title">Arroz + Feijão = Proteína Completa</div>
+        <p>A lisina (que falta no arroz) vem do feijão. A metionina (que falta no feijão) vem do arroz. Juntos, formam a dupla perfeita — a sabedoria popular acertou em cheio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-sep"></div>
+
+<!-- ══════════════════════════════════════════ CAP 4 -->
+<section class="chapter" id="cap4">
+  <div class="chapter-header">
+    <div>
+      <div class="chapter-num">Capítulo 04</div>
+      <h2 class="chapter-title">Carboidratos<br>Complexos</h2>
+      <p class="chapter-lead">O combustível mais incompreendido da nutrição. Spoiler: seu cérebro ama carboidratos.</p>
+    </div>
+  </div>
+
+  <div class="chapter-body">
+    <p>Carboidratos viraram vilões sem julgamento justo. A verdade científica: seu cérebro consome cerca de <strong style="color:var(--accent)">120g de glicose por dia</strong> e funciona quase exclusivamente com esse combustível. Cortar carboidratos é privar o seu órgão mais nobre de energia.</p>
+    <p>O problema nunca foi o carboidrato — foi a <em>qualidade</em> do carboidrato.</p>
+  </div>
+
+  <div class="comparison">
+    <div class="comp-card bad">
+      <div class="comp-label">⚡ Carboidrato Simples — Cuidado</div>
+      <ul>
+        <li>Açúcar branco, farinha refinada, refrigerantes</li>
+        <li>Absorção ultrarrápida → pico de glicose</li>
+        <li>Fome volta em 1–2 horas</li>
+        <li>Excesso armazenado como gordura</li>
+        <li>Favorece inflamação crônica</li>
+        <li>Cria resistência à insulina com o tempo</li>
+      </ul>
+    </div>
+    <div class="comp-card good">
+      <div class="comp-label">🌱 Carboidrato Complexo — Aliado</div>
+      <ul>
+        <li>Batata-doce, aveia, quinoa, arroz integral</li>
+        <li>Absorção lenta → energia estável e duradoura</li>
+        <li>Saciedade prolongada por horas</li>
+        <li>Abastece glicogênio muscular e hepático</li>
+        <li>Anti-inflamatório, estabiliza o humor</li>
+        <li>Ativa via mTOR → síntese proteica anabólica</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 680 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr-cap4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 Z" fill="#b5f060"/>
+        </marker>
+      </defs>
+      <rect width="680" height="200" rx="20" fill="#131918"/>
+      <text x="340" y="30" text-anchor="middle" font-family="Syne,sans-serif" font-size="13" fill="#e8ede8" font-weight="800">Por que Carboidrato + Proteína são parceiros?</text>
+
+      <!-- Card 1: Carboidrato -->
+      <rect x="24" y="48" width="172" height="132" rx="14" fill="rgba(96,212,240,0.07)" stroke="#60d4f0" stroke-width="1.2"/>
+      <rect x="24" y="48" width="172" height="3" rx="2" fill="#60d4f0" opacity="0.6"/>
+      <text x="110" y="86" text-anchor="middle" font-family="Syne,sans-serif" font-size="28">🍠</text>
+      <text x="110" y="110" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#60d4f0" font-weight="700">Carboidrato</text>
+      <text x="110" y="127" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">Libera insulina</text>
+      <text x="110" y="142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">Ativa via mTOR</text>
+      <text x="110" y="163" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#60d4f0" opacity="0.7">ENTRADA</text>
+
+      <!-- Arrow 1 -->
+      <path d="M200 114 L240 114" stroke="#b5f060" stroke-width="2" marker-end="url(#arr-cap4)"/>
+      <text x="220" y="108" text-anchor="middle" font-family="Syne,sans-serif" font-size="8" fill="#b5f060" font-weight="700">ativa</text>
+
+      <!-- Card 2: mTOR (central, destaque) -->
+      <rect x="244" y="60" width="168" height="108" rx="14" fill="rgba(181,240,96,0.1)" stroke="#b5f060" stroke-width="1.8"/>
+      <rect x="244" y="60" width="168" height="3" rx="2" fill="#b5f060" opacity="0.8"/>
+      <text x="328" y="95" text-anchor="middle" font-family="Syne,sans-serif" font-size="20" fill="#b5f060" font-weight="800">mTOR</text>
+      <text x="328" y="114" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">sinal anabólico</text>
+      <text x="328" y="128" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">principal do corpo</text>
+      <text x="328" y="152" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" opacity="0.7">AMPLIFICADOR</text>
+
+      <!-- Arrow 2 -->
+      <path d="M416 114 L456 114" stroke="#b5f060" stroke-width="2" marker-end="url(#arr-cap4)"/>
+      <text x="436" y="108" text-anchor="middle" font-family="Syne,sans-serif" font-size="8" fill="#b5f060" font-weight="700">libera</text>
+
+      <!-- Card 3: Síntese Proteica -->
+      <rect x="460" y="48" width="196" height="132" rx="14" fill="rgba(181,240,96,0.07)" stroke="#b5f060" stroke-width="1.2"/>
+      <rect x="460" y="48" width="196" height="3" rx="2" fill="#b5f060" opacity="0.5"/>
+      <text x="558" y="86" text-anchor="middle" font-family="Syne,sans-serif" font-size="28">💪</text>
+      <text x="558" y="110" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#b5f060" font-weight="700">Síntese Proteica</text>
+      <text x="558" y="127" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">Proteínas usadas para</text>
+      <text x="558" y="142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#7a8f84">construção, não energia</text>
+      <text x="558" y="163" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" opacity="0.7">RESULTADO</text>
+    </svg>
+  </div>
+
+  <div class="callout accent2">
+    <span class="callout-icon">⏰</span>
+    <div class="callout-title">Timing Ideal dos Carboidratos</div>
+    <p>Consuma carboidratos complexos nas refeições <strong>pré e pós-treino</strong>. De manhã e ao meio-dia são os melhores horários metabólicos — a sensibilidade à insulina está no pico, o aproveitamento é máximo.</p>
+  </div>
+</section>
+
+<div class="chapter-sep"></div>
+
+<!-- ══════════════════════════════════════════ CAP 5 -->
+<section class="chapter" id="cap5">
+  <div class="chapter-header">
+    <div>
+      <div class="chapter-num">Capítulo 05</div>
+      <h2 class="chapter-title">Gorduras &<br>Micronutrientes</h2>
+      <p class="chapter-lead">Chamados de "micro" pela quantidade, não pela importância. Uma deficiência silenciosa aqui pode paralisar centenas de reações no seu corpo.</p>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top: 40px;">✦ O Que Cada Mineral Faz Por Você</div>
+
+  <div class="mineral-grid">
+    <div class="mineral-card zn">
+      <div class="mineral-badge">Zn</div>
+      <div class="mineral-info">
+        <div class="mineral-info-name">Zinco</div>
+        <p>Participa de mais de 300 reações no organismo. Sem ele, sua imunidade cai, a cicatrização demora e a produção de testosterona diminui. Fontes: carnes, frutos do mar, sementes de abóbora.</p>
+      </div>
+    </div>
+
+    <div class="mineral-card mg">
+      <div class="mineral-badge">Mg</div>
+      <div class="mineral-info">
+        <div class="mineral-info-name">Magnésio</div>
+        <p>O mineral do sono e da energia. Está envolvido em mais de 600 reações, incluindo a produção de ATP. Deficiência causa cãibras, insônia e cansaço crônico. Fontes: folhas verdes, nozes, banana.</p>
+      </div>
+    </div>
+
+    <div class="mineral-card fe">
+      <div class="mineral-badge">Fe</div>
+      <div class="mineral-info">
+        <div class="mineral-info-name">Ferro</div>
+        <p>Responsável por levar oxigênio a cada célula via hemoglobina. Sem ferro suficiente, você sente fadiga constante, falta de ar e dificuldade de concentração. Fontes: feijão, carne vermelha, espinafre.</p>
+      </div>
+    </div>
+
+    <div class="mineral-card ca">
+      <div class="mineral-badge">Ca</div>
+      <div class="mineral-info">
+        <div class="mineral-info-name">Cálcio</div>
+        <p>Muito além dos ossos: o cálcio também controla a contração muscular e a transmissão de sinais entre células. Baixo cálcio por anos aumenta o risco de osteoporose. Fontes: laticínios, brócolis, sardinha.</p>
+      </div>
+    </div>
+
+    <div class="mineral-card se">
+      <div class="mineral-badge">Se</div>
+      <div class="mineral-info">
+        <div class="mineral-info-name">Selênio</div>
+        <p>Um guardião silencioso: protege o DNA contra danos oxidativos e apoia a produção dos hormônios da tireoide. Apenas 1 castanha-do-Pará por dia cobre a dose diária recomendada.</p>
+      </div>
+    </div>
+
+    <div class="mineral-card io">
+      <div class="mineral-badge">I</div>
+      <div class="mineral-info">
+        <div class="mineral-info-name">Iodo</div>
+        <p>Controla a tireoide — a glândula que regula seu metabolismo, temperatura e ritmo de queima de energia. Deficiência causa cansaço, ganho de peso e queda de cabelo. Fonte principal: sal iodado, frutos do mar.</p>
+      </div>
+    </div>
+
+    <div class="mineral-card k">
+      <div class="mineral-badge">K</div>
+      <div class="mineral-info">
+        <div class="mineral-info-name">Potássio</div>
+        <p>Regula a pressão arterial e o equilíbrio de líquidos. Fundamental para o coração bater em ritmo saudável e os músculos contraírem corretamente. Fontes: banana, abacate, batata-doce, feijão.</p>
+      </div>
+    </div>
+
+    <div class="mineral-card na">
+      <div class="mineral-badge">Na</div>
+      <div class="mineral-info">
+        <div class="mineral-info-name">Sódio</div>
+        <p>Essencial em dose certa: transmite impulsos nervosos e regula o equilíbrio hídrico. O excesso eleva a pressão arterial. A falta causa fraqueza e cãibras. Equilibre a ingestão diária com cuidado.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout accent3">
+    <span class="callout-icon">⚠️</span>
+    <div class="callout-title">Por que os micros são tão importantes?</div>
+    <p>Uma deficiência de zinco ou magnésio pode <strong>paralisar centenas de reações enzimáticas</strong> silenciosamente — gerando fadiga crônica, queda da imunidade e redução da síntese proteica. E você pode não saber o motivo.</p>
+  </div>
+
+  <div class="chapter-body">
+    <p>Quanto às gorduras: elas constroem membranas celulares, produzem hormônios (incluindo os sexuais), absorvem as vitaminas A, D, E e K, e têm ação anti-inflamatória. O que deve ser evitado são as gorduras <em>trans</em> industrializadas.</p>
+  </div>
+
+  <div class="fat-grid">
+    <div class="fat-card">
+      <div class="fat-icon">🫒</div>
+      <div class="fat-card-text">
+        <h4>Azeite Extra Virgem</h4>
+        <p>Ômega-9, polifenóis anti-inflamatórios</p>
+      </div>
+    </div>
+    <div class="fat-card">
+      <div class="fat-icon">🥑</div>
+      <div class="fat-card-text">
+        <h4>Abacate</h4>
+        <p>Gorduras monoinsaturadas, potássio</p>
+      </div>
+    </div>
+    <div class="fat-card">
+      <div class="fat-icon">🐟</div>
+      <div class="fat-card-text">
+        <h4>Peixes Gordos</h4>
+        <p>Ômega-3 EPA/DHA — sardinha, salmão</p>
+      </div>
+    </div>
+    <div class="fat-card">
+      <div class="fat-icon">🥜</div>
+      <div class="fat-card-text">
+        <h4>Oleaginosas</h4>
+        <p>Castanhas, nozes — ômega-3, minerais</p>
+      </div>
+    </div>
+    <div class="fat-card">
+      <div class="fat-icon">🌱</div>
+      <div class="fat-card-text">
+        <h4>Sementes</h4>
+        <p>Linhaça, chia — ômega-3 ALA, fibras</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-sep"></div>
+
+<!-- ══════════════════════════════════════════ CAP 6 -->
+<section class="chapter" id="cap6">
+  <div class="chapter-header">
+    <div>
+      <div class="chapter-num">Capítulo 06</div>
+      <h2 class="chapter-title">Ayurveda &<br>Cronobiologia</h2>
+      <p class="chapter-lead"><em>Quando</em> você come é tão importante quanto <em>o que</em> você come. A ciência moderna confirmou o que o Ayurveda sabe há 5.000 anos.</p>
+    </div>
+  </div>
+
+  <div class="chapter-body">
+    <p>O pesquisador Satchin Panda, do Salk Institute, demonstrou que todas as células possuem seu próprio <strong style="color:var(--accent)">relógio circadiano de 24 horas</strong>. Hormônios, enzimas digestivas, genes metabólicos — tudo sobe e desce em horários específicos.</p>
+    <p>Comer fora de sincronia com esse relógio é como ligar a máquina quando o operário não está presente. O alimento existe, mas o processamento é ineficiente.</p>
+  </div>
+
+  <div class="dosha-grid">
+    <div class="dosha-card vata">
+      <div class="dosha-icon">💨</div>
+      <div class="dosha-name">VATA</div>
+      <div class="dosha-element">Ar + Éter</div>
+      <div class="dosha-time">2h–6h e 14h–18h</div>
+      <div class="dosha-desc">Criatividade, movimento, leveza. Período ideal para estudo, criação e exercício moderado.</div>
+    </div>
+    <div class="dosha-card pitta">
+      <div class="dosha-icon">🔥</div>
+      <div class="dosha-name">PITTA</div>
+      <div class="dosha-element">Fogo + Água</div>
+      <div class="dosha-time">10h–14h e 22h–2h</div>
+      <div class="dosha-desc">Digestão, metabolismo, foco. O fogo digestivo (AGNI) está no pico — hora da principal refeição!</div>
+    </div>
+    <div class="dosha-card kapha">
+      <div class="dosha-icon">🌊</div>
+      <div class="dosha-name">KAPHA</div>
+      <div class="dosha-element">Terra + Água</div>
+      <div class="dosha-time">6h–10h e 18h–22h</div>
+      <div class="dosha-desc">Estrutura, estabilidade, nutrição. Período de desaceleração — jantar leve e digestão tranquila.</div>
+    </div>
+  </div>
+
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 680 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="680" height="260" rx="20" fill="#131918"/>
+      <circle cx="340" cy="130" r="110" fill="rgba(181,240,96,0.03)" stroke="rgba(181,240,96,0.2)" stroke-width="1"/>
+      <circle cx="340" cy="130" r="90" fill="none" stroke="rgba(181,240,96,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
+      <path d="M340 130 L390 40 A110 110 0 0 1 450 90 Z" fill="rgba(96,212,240,0.08)" stroke="#60d4f0" stroke-width="0.5"/>
+      <path d="M340 130 L450 90 A110 110 0 0 1 450 170 Z" fill="rgba(240,160,96,0.1)" stroke="#f0a060" stroke-width="0.8"/>
+      <path d="M340 130 L450 170 A110 110 0 0 1 390 220 Z" fill="rgba(181,240,96,0.06)" stroke="#b5f060" stroke-width="0.5"/>
+      <path d="M340 130 L390 220 A110 110 0 0 1 290 220 Z" fill="rgba(96,212,240,0.06)" stroke="#60d4f0" stroke-width="0.5"/>
+      <path d="M340 130 L290 220 A110 110 0 0 1 230 170 Z" fill="rgba(240,160,96,0.06)" stroke="#f0a060" stroke-width="0.5"/>
+      <path d="M340 130 L230 170 A110 110 0 0 1 230 90 Z" fill="rgba(181,240,96,0.04)" stroke="#b5f060" stroke-width="0.5"/>
+      <path d="M340 130 L230 90 A110 110 0 0 1 290 40 Z" fill="rgba(96,212,240,0.06)" stroke="#60d4f0" stroke-width="0.5"/>
+      <path d="M340 130 L290 40 A110 110 0 0 1 390 40 Z" fill="rgba(181,240,96,0.04)" stroke="rgba(181,240,96,0.2)" stroke-width="0.5"/>
+      <circle cx="340" cy="130" r="30" fill="#131918" stroke="rgba(181,240,96,0.3)" stroke-width="1.5"/>
+      <text x="340" y="127" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" font-weight="700">RITMO</text>
+      <text x="340" y="140" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" font-weight="700">CIRCADIANO</text>
+      <text x="340" y="16" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="#7a8f84">00h</text>
+      <text x="458" y="134" text-anchor="start" font-family="Syne,sans-serif" font-size="10" fill="#7a8f84">06h</text>
+      <text x="340" y="256" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" fill="#7a8f84">12h</text>
+      <text x="210" y="134" text-anchor="end" font-family="Syne,sans-serif" font-size="10" fill="#7a8f84">18h</text>
+      <text x="478" y="108" font-family="Syne,sans-serif" font-size="10" fill="#60d4f0" font-weight="700">KAPHA</text>
+      <text x="478" y="120" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Café da manhã leve</text>
+      <text x="490" y="150" font-family="Syne,sans-serif" font-size="10" fill="#f0a060" font-weight="700">PITTA 🔥</text>
+      <text x="490" y="162" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">ALMOÇO PRINCIPAL</text>
+      <text x="136" y="108" text-anchor="end" font-family="Syne,sans-serif" font-size="10" fill="#b5f060" font-weight="700">VATA</text>
+      <text x="136" y="120" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Acordar + água</text>
+      <text x="136" y="152" text-anchor="end" font-family="Syne,sans-serif" font-size="10" fill="#60d4f0" font-weight="700">KAPHA</text>
+      <text x="136" y="164" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Jantar leve</text>
+      <text x="380" y="238" font-family="Syne,sans-serif" font-size="10" fill="#b5f060" font-weight="700">VATA</text>
+      <text x="380" y="250" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Lanche · frutas</text>
+      <text x="248" y="238" text-anchor="end" font-family="Syne,sans-serif" font-size="10" fill="#f0a060" font-weight="700">PITTA</text>
+      <text x="248" y="250" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#7a8f84">Sono profundo</text>
+    </svg>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">☀️</span>
+    <div class="callout-title">AGNI — O Fogo Digestivo</div>
+    <p>Para o Ayurveda, o poder digestivo (<strong>Agni</strong>) está no auge ao meio-dia, quando o sol está a pino. Por isso o almoço deve ser a principal refeição. À noite, o Agni está baixo — refeições pesadas à noite sobrecarregam o sistema e geram acúmulo de toxinas.</p>
+  </div>
+
+  <div class="big-quote">"Viver em sincronia com os ritmos circadianos é a base do Ayurveda. É por isso que os pássaros voam para o sul e as baleias migram. Esses são os ritmos de vida esquecidos."</div>
+</section>
+
+<div class="chapter-sep"></div>
+
+<!-- ══════════════════════════════════════════ CAP 7 -->
+<section class="chapter" id="cap7">
+  <div class="chapter-header">
+    <div>
+      <div class="chapter-num">Capítulo 07</div>
+      <h2 class="chapter-title">Montando o<br>Prato Ideal</h2>
+      <p class="chapter-lead">Teoria aprendida, agora é prática. Como montar uma refeição que respeita sua biologia de verdade.</p>
+    </div>
+  </div>
+
+  <!-- FIX 3: "Composição do Prato" SVG — smaller fonts, shorter label text, clip-path added -->
+  <div class="chapter-illustration">
+    <svg viewBox="0 0 680 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="legend-clip">
+          <rect x="380" y="30" width="270" height="210" rx="16"/>
+        </clipPath>
+      </defs>
+      <rect width="680" height="300" rx="20" fill="#131918"/>
+      <circle cx="220" cy="150" r="130" fill="#1c2321" stroke="rgba(181,240,96,0.15)" stroke-width="2"/>
+      <circle cx="220" cy="150" r="118" fill="#131918" stroke="rgba(181,240,96,0.08)" stroke-width="1"/>
+      <path d="M220 150 L220 32 A118 118 0 0 1 338 170 Z" fill="rgba(181,240,96,0.14)" stroke="#b5f060" stroke-width="1"/>
+      <path d="M220 150 L338 170 A118 118 0 0 1 250 264 Z" fill="rgba(96,212,240,0.12)" stroke="#60d4f0" stroke-width="1"/>
+      <path d="M220 150 L250 264 A118 118 0 0 1 104 236 Z" fill="rgba(240,160,96,0.12)" stroke="#f0a060" stroke-width="1"/>
+      <path d="M220 150 L104 236 A118 118 0 0 1 220 32 Z" fill="rgba(240,96,168,0.10)" stroke="#f060a8" stroke-width="1"/>
+      <text x="248" y="120" font-size="22" text-anchor="middle">🥦</text>
+      <text x="300" y="218" font-size="20" text-anchor="middle">🐟</text>
+      <text x="180" y="240" font-size="18" text-anchor="middle">🍠</text>
+      <text x="128" y="160" font-size="16" text-anchor="middle">🫒</text>
+      <circle cx="220" cy="150" r="24" fill="#131918" stroke="rgba(181,240,96,0.3)" stroke-width="1.5"/>
+      <text x="220" y="154" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" font-weight="800">PRATO</text>
+      <!-- Legend box with clip to prevent overflow -->
+      <rect x="380" y="30" width="270" height="210" rx="16" fill="#1c2321" stroke="rgba(181,240,96,0.1)" stroke-width="1"/>
+      <g clip-path="url(#legend-clip)">
+        <text x="515" y="62" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" fill="#e8ede8" font-weight="800">Composição do Prato</text>
+        <!-- Row 1 -->
+        <rect x="400" y="78" width="10" height="10" rx="2" fill="#b5f060"/>
+        <text x="418" y="88" font-family="Syne,sans-serif" font-size="9" fill="#b5f060" font-weight="700">40–50% Vegetais Vivos</text>
+        <text x="418" y="100" font-family="DM Sans,sans-serif" font-size="8.5" fill="#7a8f84">Folhas, brócolis, cenoura, beterraba</text>
+        <text x="418" y="112" font-family="DM Sans,sans-serif" font-size="8.5" fill="#7a8f84">Fibras · micros · fitoquímicos</text>
+        <!-- Row 2 -->
+        <rect x="400" y="126" width="10" height="10" rx="2" fill="#60d4f0"/>
+        <text x="418" y="136" font-family="Syne,sans-serif" font-size="9" fill="#60d4f0" font-weight="700">25–30% Proteína Completa</text>
+        <text x="418" y="148" font-family="DM Sans,sans-serif" font-size="8.5" fill="#7a8f84">Ovos, frango, peixe, feijão+arroz</text>
+        <text x="418" y="160" font-family="DM Sans,sans-serif" font-size="8.5" fill="#7a8f84">Síntese proteica e imunidade</text>
+        <!-- Row 3 -->
+        <rect x="400" y="174" width="10" height="10" rx="2" fill="#f0a060"/>
+        <text x="418" y="184" font-family="Syne,sans-serif" font-size="9" fill="#f0a060" font-weight="700">20–25% Carboidratos</text>
+        <text x="418" y="196" font-family="DM Sans,sans-serif" font-size="8.5" fill="#7a8f84">Batata-doce, quinoa, arroz integral</text>
+        <!-- Row 4 -->
+        <rect x="400" y="210" width="10" height="10" rx="2" fill="#f060a8"/>
+        <text x="418" y="220" font-family="Syne,sans-serif" font-size="9" fill="#f060a8" font-weight="700">10–15% Gordura Saudável</text>
+        <text x="418" y="232" font-family="DM Sans,sans-serif" font-size="8.5" fill="#7a8f84">Azeite, abacate, sementes</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="plate-grid">
+    <div class="plate-item">
+      <div class="plate-pct">40<span style="font-size:14px">%</span></div>
+      <div class="plate-info">
+        <h4>🥦 Vegetais Vivos</h4>
+        <p>Folhas, brócolis, cenoura, beterraba. Fibras, micronutrientes e alcalinização do organismo.</p>
+      </div>
+    </div>
+    <div class="plate-item">
+      <div class="plate-pct">25<span style="font-size:14px">%</span></div>
+      <div class="plate-info">
+        <h4>🐟 Proteína Completa</h4>
+        <p>Ovos, frango, peixe, feijão+arroz. Síntese proteica, produção de enzimas e imunidade.</p>
+      </div>
+    </div>
+    <div class="plate-item">
+      <div class="plate-pct">22<span style="font-size:14px">%</span></div>
+      <div class="plate-info">
+        <h4>🍠 Carboidratos Complexos</h4>
+        <p>Batata-doce, quinoa, mandioca. Energia sustentada e ativação do processo anabólico.</p>
+      </div>
+    </div>
+    <div class="plate-item">
+      <div class="plate-pct">13<span style="font-size:14px">%</span></div>
+      <div class="plate-info">
+        <h4>🫒 Gordura Saudável</h4>
+        <p>Azeite, abacate, sementes. Absorção de vitaminas lipossolúveis e ação anti-inflamatória.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:22px; font-weight:800; margin:48px 0 24px; letter-spacing:-0.02em;">Modelo de Dia Alimentar</h3>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">6h30 — Ao acordar</div>
+      <div class="timeline-meal">💧 Água morna com limão</div>
+      <div class="timeline-desc">Ativa o sistema digestivo, hidrata as células após o sono e prepara o organismo para o dia.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">7h30 — Café da manhã</div>
+      <div class="timeline-meal">🥣 Café nutritivo e leve</div>
+      <div class="timeline-desc">Aveia com frutas vermelhas + ovos mexidos + chá de gengibre. Proteína + carbo complexo + anti-inflamatório natural.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">12h30 — Almoço (principal!)</div>
+      <div class="timeline-meal">🍽️ A maior refeição do dia — AGNI no pico</div>
+      <div class="timeline-desc">Arroz integral + feijão + filé de peixe + salada verde + azeite + batata-doce. Prato completo com todos os macros e micros.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">16h — Lanche da tarde</div>
+      <div class="timeline-meal">🥜 Lanche energético</div>
+      <div class="timeline-desc">Mix de castanhas + banana + iogurte natural. Ômega-3, potássio e probióticos para o microbioma.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">19h — Jantar (leve!)</div>
+      <div class="timeline-meal">🍲 Refeição leve e digestiva</div>
+      <div class="timeline-desc">Sopa de legumes + ovo cozido ou frango grelhado com salada. Jantar leve pelo menos 3h antes de dormir.</div>
+    </div>
+    <div class="timeline-item dim">
+      <div class="timeline-time">Após 20h — Jejum noturno</div>
+      <div class="timeline-meal">🍵 Chá de camomila ou melissa</div>
+      <div class="timeline-desc">Nada sólido. Respeite o jejum noturno — é quando o PITTA regenera suas células e o corpo repara os tecidos.</div>
+    </div>
+  </div>
+
+  <div class="callout accent2">
+    <span class="callout-icon">💡</span>
+    <div class="callout-title">Lembre-se</div>
+    <p>Cada corpo é único. Esses guias são baseados na fisiologia humana universal. Consulte um nutricionista para personalizar quantidades conforme seu biotipo, objetivos e condições de saúde específicas.</p>
+  </div>
+</section>
+
+<div class="chapter-sep"></div>
+
+<!-- ══════════════════════════════════════════ CONCLUSION -->
+<section class="conclusion">
+  <div class="section-label" style="margin-bottom:24px;">Conclusão</div>
+  <h2 class="conclusion-title">Você é o que<br>você <em>constrói</em></h2>
+  <p class="conclusion-text">Um aminoácido de cada vez. Alimente-se de verdade, nos horários certos, com os nutrientes corretos. O Ayurveda e a cronobiologia chegaram às mesmas conclusões por caminhos diferentes.</p>
+
+  <div class="key-points">
+    <div class="key-point">9 aminoácidos essenciais na refeição</div>
+    <div class="key-point">Almoço é a refeição principal</div>
+    <div class="key-point">Carbos complexos + proteína = dupla anabólica</div>
+    <div class="key-point">Hidratação + sono + menos estresse</div>
+    <div class="key-point">Variedade real = microbioma saudável</div>
+    <div class="key-point">Jejum noturno respeitado</div>
+  </div>
+
+  <div class="big-quote" style="border-color: var(--accent); text-align:center; border-left: none; border-top: 1px solid rgba(181,240,96,0.3); padding: 40px 20px 0; max-width:560px; margin: 0 auto;">
+    "Comida Para HomoSapiens não é dieta.<br>É o retorno à nossa natureza biológica —<br>inteligente, rítmica e viva."
+  </div>
+
+  <div style="margin-top:56px; font-family:'Syne',sans-serif; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted);">
+    Comida Para HomoSapiens · Guia de Nutrição Biológica · 2025
+  </div>
+</section>
+
+</body>
+</html>
